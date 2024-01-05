@@ -7,7 +7,7 @@ public class GroupCreationTests extends TestBase {
 
     @Test
     public void canCreateGroup() {
-        app.groups().createGroup(new GroupData("group header", "group name", "group footer"));
+        app.groups().createGroup(new GroupData("group name", "group header", "group footer"));
     }
 
     @Test
