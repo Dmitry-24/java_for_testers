@@ -1,6 +1,5 @@
 package tests;
 
-import manager.ContactHelper;
 import model.ContactData;
 import org.junit.jupiter.api.Test;
 
