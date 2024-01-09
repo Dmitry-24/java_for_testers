@@ -74,4 +74,8 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("home page"));
     }
 
+    public int getContactCounts() {
+        openContactsPage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
 }
