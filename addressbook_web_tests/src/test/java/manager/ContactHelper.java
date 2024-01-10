@@ -64,7 +64,7 @@ public class ContactHelper extends HelperBase {
 
 
     private void returnToHomePage() {
-        click(By.linkText("home page"));
+        click(By.xpath("//a [text()=\"home\"]"));
     }
 
     public int getContactCounts() {
