@@ -3,6 +3,9 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper extends HelperBase {
 
     public ContactHelper(ApplicationManager manager) {
@@ -17,9 +20,9 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    public void removeContact() {
+    public void removeContact(ContactData contact) {
         openContactsPage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContacts();
     }
 
@@ -57,8 +60,8 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
 
@@ -83,5 +86,35 @@ public class ContactHelper extends HelperBase {
         for (var checkbox : checkboxes) {
             checkbox.click();
         }
+    }
+
+    public List<ContactData> getContactList() {
+        openContactsPage();
+        var contacts = new ArrayList<ContactData>();
+        var trs = manager.driver.findElements(By.xpath("//tr[@name='entry']"));
+        for (var tr : trs) {
+            var lastName = tr.findElement(By.xpath("td[2]")).getText();
+            var firstName = tr.findElement(By.xpath("td[3]")).getText();
+            var id = tr.findElement(By.name("selected[]")).getAttribute("id");
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+        }
+        return contacts;
+    }
+
+    public void modifyContact(ContactData modifiedContact) {
+        openContactsPage();
+        selectContact(null);
+        initContactmodification();
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        returnToHomePage();
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    private void initContactmodification() {
+        click(By.xpath("//img[@title='Edit']"));
     }
 }
