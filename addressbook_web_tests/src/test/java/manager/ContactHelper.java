@@ -101,9 +101,9 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }
 
-    public void modifyContact(ContactData modifiedContact) {
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openContactsPage();
-        selectContact(null);
+        selectContact(contact);
         initContactmodification();
         fillContactForm(modifiedContact);
         submitContactModification();

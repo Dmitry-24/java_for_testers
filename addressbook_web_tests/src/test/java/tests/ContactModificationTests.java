@@ -1,7 +1,12 @@
 package tests;
 
 import model.ContactData;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Random;
 
 public class ContactModificationTests extends TestBase {
 
@@ -10,7 +15,20 @@ public class ContactModificationTests extends TestBase {
         if (app.contacts().getContactCounts() == 0) {
             app.contacts().createContact(new ContactData("", "first_name", "last_name", "address", "123456789", "test@email.ru"));
         }
-        app.contacts().modifyContact(new ContactData().withFirstName("modified first_name"));
+        var oldContacts = app.contacts().getContactList();
+        var rnd = new Random();
+        var index = rnd.nextInt(oldContacts.size());
+        var testContactData = new ContactData().withFirstName("modified first_name");
+        app.contacts().modifyContact(oldContacts.get(index), testContactData);
+        var newContacts = app.contacts().getContactList();
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.set(index, testContactData.withId(oldContacts.get(index).id()));
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newContacts.sort(compareById);
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newContacts, expectedList);
 
     }
 
