@@ -104,7 +104,7 @@ public class ContactHelper extends HelperBase {
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openContactsPage();
         selectContact(contact);
-        initContactmodification();
+        initContactmodification(modifiedContact);
         fillContactForm(modifiedContact);
         submitContactModification();
         returnToHomePage();
@@ -114,7 +114,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("update"));
     }
 
-    private void initContactmodification() {
-        click(By.xpath("//img[@title='Edit']"));
+    private void initContactmodification(ContactData contact) {
+        click(By.xpath(String.format("//td[./input[@id='%s']]/..//td//a//img[@title='Edit']", contact.id())));
     }
 }
