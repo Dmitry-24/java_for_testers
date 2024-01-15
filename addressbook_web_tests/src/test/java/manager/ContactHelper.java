@@ -103,8 +103,7 @@ public class ContactHelper extends HelperBase {
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openContactsPage();
-        selectContact(contact);
-        initContactmodification(modifiedContact);
+        initContactmodification(contact);
         fillContactForm(modifiedContact);
         submitContactModification();
         returnToHomePage();
