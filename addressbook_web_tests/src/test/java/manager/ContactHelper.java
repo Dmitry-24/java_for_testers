@@ -42,7 +42,7 @@ public class ContactHelper extends HelperBase {
 
     public void openContactsPage() {
         if (!manager.isElementPresent(By.linkText("add new"))) {
-            manager.driver.get("http://localhost/addressbook/");
+            click(By.xpath("//a[text()='home']"));
         }
     }
 
