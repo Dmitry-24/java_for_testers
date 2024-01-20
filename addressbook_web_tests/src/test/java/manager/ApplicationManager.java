@@ -18,6 +18,8 @@ public class ApplicationManager {
 
     private ContactHelper contacts;
 
+    private jdbcHelper jdbc;
+
     private Properties properties;
 
 
@@ -37,6 +39,14 @@ public class ApplicationManager {
             //driver.findElement(By.name("user")).click();
             session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
         }
+    }
+
+
+    public jdbcHelper jdbc() {
+        if (jdbc == null) {
+            jdbc = new jdbcHelper(this);
+        }
+        return jdbc;
     }
 
     public LoginHelper session() {
