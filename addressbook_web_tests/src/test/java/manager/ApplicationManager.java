@@ -22,6 +22,8 @@ public class ApplicationManager {
 
     private Properties properties;
 
+    private HibernateHelper hbm;
+
 
     public void init(String browser, Properties properties) {
         this.properties = properties;
@@ -47,6 +49,13 @@ public class ApplicationManager {
             jdbc = new jdbcHelper(this);
         }
         return jdbc;
+    }
+
+    public HibernateHelper hbm() {
+        if (hbm == null) {
+            hbm = new HibernateHelper(this);
+        }
+        return hbm;
     }
 
     public LoginHelper session() {
