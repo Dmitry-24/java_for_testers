@@ -86,7 +86,16 @@ public class ContactCreationTests extends TestBase {
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().createContactWithGroup(contact, group);
         var newRelated = app.hbm().getContactsInGroup(group);
-        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newRelated.sort(compareById);
+        var maxID = newRelated.get(newRelated.size() - 1).id();
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(contact.withId(maxID));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newRelated, expectedList);
+        //Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
 
     }
 }
