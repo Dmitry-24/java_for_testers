@@ -46,8 +46,6 @@ public class ContactRemovalTests extends TestBase {
             app.hbm().createGroup(new GroupData("", "group header", "group name", "group footer"));
         }
         var group = app.hbm().getGroupList().get(0);
-        if (app.hbm().getContactsInGroup(group).size() < 2) {
-            app.contacts().createContactWithGroup(contact, group);
-        }
+
     }
 }

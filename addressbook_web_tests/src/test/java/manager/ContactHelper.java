@@ -131,4 +131,6 @@ public class ContactHelper extends HelperBase {
     private void initContactModification(ContactData contact) {
         click(By.xpath(String.format("//td[./input[@id='%s']]/..//td//a//img[@title='Edit']", contact.id())));
     }
+
+
 }
