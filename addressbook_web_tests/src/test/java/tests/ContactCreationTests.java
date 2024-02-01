@@ -79,7 +79,10 @@ public class ContactCreationTests extends TestBase {
                 .withLastName(CommonFunctions.randomString(10))
                 .withAddress(CommonFunctions.randomString(10));
         if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "group header", "group name", "group footer"));
+            app.hbm().createGroup(new GroupData()
+                    .withName(CommonFunctions.randomString(10))
+                    .withHeader(CommonFunctions.randomString(10))
+                    .withFooter(CommonFunctions.randomString(10)));
         }
         var group = app.hbm().getGroupList().get(0);
 

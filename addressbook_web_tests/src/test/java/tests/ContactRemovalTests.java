@@ -37,15 +37,36 @@ public class ContactRemovalTests extends TestBase {
     }
 
     @Test
-    void canRemoveContactFromGroup() {
-        var contact = new ContactData()
-                .withFirstName(CommonFunctions.randomString(10))
-                .withLastName(CommonFunctions.randomString(10))
-                .withAddress(CommonFunctions.randomString(10));
-        if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "group header", "group name", "group footer"));
+    public void canRemoveContactFromGroup() {
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData()
+                    .withFirstName(CommonFunctions.randomString(10))
+                    .withLastName(CommonFunctions.randomString(10))
+                    .withAddress(CommonFunctions.randomString(10)));
         }
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData()
+                    .withName(CommonFunctions.randomString(10))
+                    .withHeader(CommonFunctions.randomString(10))
+                    .withFooter(CommonFunctions.randomString(10)));
+        }
+
+        var contact = app.hbm().getContactListDB().get(0);
         var group = app.hbm().getGroupList().get(0);
+        var contactInGroup = app.hbm().getContactsInGroup(group).contains(contact);
+        if (!contactInGroup) {
+            app.contacts().addContactToGroup(contact, group);
+        }
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().removeContactFromGroup(group, contact);
+        var newRelated = app.hbm().getContactsInGroup(group);
+
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.remove(contact);
+        Assertions.assertEquals(newRelated, expectedList);
+
+
 
     }
+
 }

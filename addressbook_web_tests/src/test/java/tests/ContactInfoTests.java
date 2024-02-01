@@ -22,9 +22,12 @@ public class ContactInfoTests extends TestBase {
                 .collect(Collectors.joining("/n"));
         Assertions.assertEquals(expected, phones);
 
-
-
     }
 
 
-}
+
+
+
+
+
+    }

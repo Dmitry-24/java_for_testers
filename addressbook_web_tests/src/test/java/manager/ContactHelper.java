@@ -31,6 +31,22 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    public void addContactToGroup(ContactData contact, GroupData group) {
+        openContactsPage();
+        selectContact(contact);
+        selectGroupForAddContact(group);
+        goContactToGroup();
+    }
+
+    public void removeContactFromGroup(GroupData group, ContactData contact) {
+        openContactsPage();
+        selectGroupOnHomePage(group);
+        selectContact(contact);
+        submitRemovingContactFromGroup();
+    }
+
+
+
     private void selectGroup(GroupData group) {
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
@@ -59,6 +75,7 @@ public class ContactHelper extends HelperBase {
         if (!manager.isElementPresent(By.linkText("add new"))) {
             click(By.xpath("//a[text()='home']"));
         }
+        click(By.linkText("home"));
     }
 
     private static void submitContactCreation() {
@@ -133,8 +150,28 @@ public class ContactHelper extends HelperBase {
     }
 
 
+    private void selectGroupForAddContact(GroupData group) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+
+    }
+
+    private void submitRemovingContactFromGroup() {
+        click(By.name("remove"));
+    }
+
+
     public String getPhones(ContactData contact) {
         return manager.driver.findElement(By.xpath(
                 String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
     }
+
+    private void selectGroupOnHomePage(GroupData group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
+    }
+
+    private void goContactToGroup() {
+        click(By.xpath("//input[@name='add']"));
+
+    }
+
 }
