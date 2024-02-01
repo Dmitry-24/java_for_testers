@@ -44,6 +44,9 @@ public class HibernateHelper extends HelperBase {
                 .withLastName(record.lastname)
                 .withAddress(record.address)
                 .withPhone(record.phone)
+                .withMobile(record.mobile)
+                .withWork(record.work)
+                .withSecondary(record.phone2)
                 .withEmail(record.email);
 
 
@@ -90,6 +93,13 @@ public class HibernateHelper extends HelperBase {
         return (sessionFactory.fromSession(session -> {
             return session.createQuery("select count (*) from GroupRecord", Long.class).getSingleResult();
         }));
+
+    }
+
+    public long getContactCount() {
+        return (sessionFactory.fromSession(session -> {
+            return session.createQuery("select count (*) from ContactRecord", Long.class).getSingleResult();
+        }));
     }
 
     public void createGroup(GroupData groupData) {
@@ -98,6 +108,16 @@ public class HibernateHelper extends HelperBase {
             session.persist(convert(groupData));
             session.getTransaction().commit();
         });
+    }
+
+
+    public void createContact(ContactData contactData) {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            session.persist(convert(contactData));
+            session.getTransaction().commit();
+        });
+
     }
 
 

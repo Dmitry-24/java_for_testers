@@ -19,6 +19,13 @@ public class ContactRecord {
     public String address;
     @Column(name = "home")
     public String phone;
+    public String mobile;
+
+    public String work;
+
+    public String phone2;
+
+
 
     public String email;
 
