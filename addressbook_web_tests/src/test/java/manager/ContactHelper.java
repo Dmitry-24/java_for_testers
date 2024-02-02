@@ -189,7 +189,12 @@ public class ContactHelper extends HelperBase {
     }
 
 
+    public String getEmails(ContactData contact) {
+        return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[5]", contact.id()))).getText();
+    }
 
-
+    public String getAdress(ContactData contact) {
+        return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[4]", contact.id()))).getText();
+    }
 }
 
