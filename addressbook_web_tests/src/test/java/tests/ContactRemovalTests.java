@@ -53,8 +53,8 @@ public class ContactRemovalTests extends TestBase {
 
         var contact = app.hbm().getContactListDB().get(0);
         var group = app.hbm().getGroupList().get(0);
-        var contactInGroup = app.hbm().getContactsInGroup(group).contains(contact);
-        if (!contactInGroup) {
+        var contactsInGroup = app.hbm().getContactsInGroup(group).contains(contact);
+        if (!contactsInGroup) {
             app.contacts().addContactToGroup(contact, group);
         }
         var oldRelated = app.hbm().getContactsInGroup(group);

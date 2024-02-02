@@ -24,10 +24,30 @@ public class ContactInfoTests extends TestBase {
 
     }
 
+    @Test
+    void testAllPhones() {
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData("", "first name", "last name", "address", "12345678", "test@yandex.ru", "", "", "", ""));
+        }
+        var contacts = app.hbm().getContactListDB();
+        var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
+            Stream.of(contact.phone(), contact.mobile(), contact.work(), contact.secondary())
+                    .filter(s -> s != null & ! "".equals(s))
+                    .collect(Collectors.joining("/n"))
+        ));
+        var phones = app.contacts().getPhones();
+        Assertions.assertEquals(expected, phones);
 
-
-
-
+        }
 
 
     }
+
+
+
+
+
+
+
+
+}
