@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ContactHelper extends HelperBase {
 
@@ -188,7 +190,6 @@ public class ContactHelper extends HelperBase {
         return result;
     }
 
-
     public String getEmails(ContactData contact) {
         return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[5]", contact.id()))).getText();
     }
@@ -196,5 +197,42 @@ public class ContactHelper extends HelperBase {
     public String getAdress(ContactData contact) {
         return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[4]", contact.id()))).getText();
     }
+
+    public String getEditPageAdress(ContactData contact) {
+        initContactModification(contact);
+        return manager.driver.findElement(By.name("address")).getText();
+    }
+
+    public HashMap<String, String> getEditPageEmails(ContactData contact) {
+        initContactModification(contact);
+        var result = new HashMap<String, String>();
+        var id = contact.id();
+        var email = manager.driver.findElement(By.name("email")).getAttribute("value");
+        var email2 =  manager.driver.findElement(By.name("email2")).getAttribute("value");
+        var email3 = manager.driver.findElement(By.name("email3")).getAttribute("value");
+        var emails = Stream.of(email, email2, email3)
+                .filter(e -> e != null && ! "".equals(e))
+                .collect(Collectors.joining("\n"));
+        result.put(id, emails);
+        return result;
+
+    }
+
+    public HashMap<String, String> getEditPagePhones(ContactData contact) {
+        initContactModification(contact);
+        var result = new HashMap<String, String>();
+        var id = contact.id();
+        var phone = manager.driver.findElement(By.name("home")).getAttribute("value");
+        var mobile = manager.driver.findElement(By.name("mobile")).getAttribute("value");
+        var work = manager.driver.findElement(By.name("work")).getAttribute("value");
+        var phones = Stream.of(phone, mobile, work)
+                .filter(e -> e != null && !"".equals(e))
+                .collect(Collectors.joining("\n"));
+        result.put(id, phones);
+        return result;
+
+    }
+
+
 }
 
