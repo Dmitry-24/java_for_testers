@@ -43,7 +43,26 @@ public class UserFormHelper extends HelperBase {
 
     private void submitNewUser() {
         click(By.cssSelector("input[type='submit']"));
+
     }
 
+
+    public void userRegistrationForMainForm(String username, String email) {
+        click(By.linkText("Signup for a new account"));
+        type(By.id("username"), username);
+        type(By.id("email-field"), email);
+        click(By.cssSelector("input[type='submit']"));
+    }
+
+    public void confirmData(String url, String realName, String password) {
+        manager.driver().get(url);
+        click(By.cssSelector("input[id='realname']"));
+        type(By.cssSelector("input[id='realname']"), realName);
+        click(By.cssSelector("input[id='password']"));
+        type(By.cssSelector("input[id='password']"), password);
+        click(By.cssSelector("input[id='password-confirm']"));
+        type(By.cssSelector("input[id='password-confirm']"), password);
+        click(By.cssSelector("button[type='submit']"));
+    }
 
 }

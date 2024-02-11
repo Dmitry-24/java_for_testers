@@ -8,6 +8,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MailHelper extends HelperBase {
     public MailHelper(ApplicationManager manager) {
@@ -80,12 +82,21 @@ public class MailHelper extends HelperBase {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
-
-
-
-
     }
+
+    public String getUrl(List<MailMessage> messages) {
+        String url = null;
+        if (!messages.isEmpty()) {
+            String text = messages.get(0).content();
+            Pattern pattern = Pattern.compile("http://\\S*");
+            Matcher matcher = pattern.matcher(text);
+            if (matcher.find()) {
+                url = text.substring(matcher.start(), matcher.end());
+            }
+        }
+        return url;
+    }
+
 }
 
 
