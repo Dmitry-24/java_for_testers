@@ -4,6 +4,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import ru.stqa.mantis.model.UserForm;
 
 import java.util.Properties;
 
@@ -16,6 +17,10 @@ public class ApplicationManager {
     private HttpSessionHelper httpSessionHelper;
     private JamesCliHelper jamesCliHelper;
     private MailHelper mailHelper;
+
+    private UserFormHelper userFormHelper;
+
+
 
     public void init(String browser, Properties properties) {
         this.string = browser;
@@ -67,6 +72,14 @@ public class ApplicationManager {
         }
         return mailHelper;
     }
+
+    public UserFormHelper user() {
+        if (userFormHelper == null) {
+            userFormHelper = new UserFormHelper(this);
+        }
+        return userFormHelper;
+    }
+
 
     public String property(String name) {
         return properties.getProperty(name);
