@@ -1,12 +1,16 @@
 package ru.stqa.mantis.tests;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.mantis.common.CommonFunctions;
+import ru.stqa.mantis.model.DeveloperMailUser;
 
 import java.time.Duration;
 
 public class UserRegistrtationTests extends TestBase {
+
+    DeveloperMailUser user;
 
 
 
@@ -40,8 +44,29 @@ public class UserRegistrtationTests extends TestBase {
 
     }
 
+    @Test
+    void canRegisterUserWithDeveloperMail() {
+        var password = "password";
+        user = app.developerMail().addUser();
+        var email = String.format("%s@developermail.com", user.name());
 
-        //создать пользователя(адресс) на почтовом сервере(JamesHelper)
+       /* app.user().userRegistrationForMainForm(username, email);
+        var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
+        var url = app.mail().getUrl(messages);
+        app.user().confirmData(url, "testName", password);
+        app.http().login(username, password);
+        Assertions.assertTrue(app.http().isLoggedIn());
+        */
+    }
+
+    @AfterEach
+    void deleteMailUser() {
+        app.developerMail().deleteUser(user);
+    }
+
+
+
+    //создать пользователя(адресс) на почтовом сервере(JamesHelper)
         //заполняе форму создания и отправляем (браузер)
         //ждём письмо(MailHelper)
         //извлекаем сслыку из письма
