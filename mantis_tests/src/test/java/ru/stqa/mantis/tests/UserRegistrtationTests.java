@@ -12,8 +12,6 @@ public class UserRegistrtationTests extends TestBase {
 
     DeveloperMailUser user;
 
-
-
     @Test
     void canRegisterUser() {
         var username = CommonFunctions.randomString(8);
