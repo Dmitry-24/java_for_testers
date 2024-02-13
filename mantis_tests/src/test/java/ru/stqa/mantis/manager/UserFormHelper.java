@@ -11,11 +11,11 @@ public class UserFormHelper extends HelperBase {
 
 
 
-    public void createNewUserAccount(String username, String email) {
+    public void createNewUserAccount(String user, String email) {
         goToManage();
         goToUsers();
         initNewUserForm();
-        fillNewUserData(username, email);
+        fillNewUserData(user, email);
         submitNewUser();
 
     }
@@ -33,11 +33,11 @@ public class UserFormHelper extends HelperBase {
         click(By.xpath("//a[text()='Create New Account']"));
     }
 
-    private void fillNewUserData(String username, String email){
+    private void fillNewUserData(String user, String email){
         click(By.id("user-username"));
-        type(By.id("user-username"), username);
+        type(By.id("user-username"), user);
         click(By.id("email-field"));
-        type(By.id("email-field"), username);
+        type(By.id("email-field"), user);
 
     }
 
@@ -47,10 +47,11 @@ public class UserFormHelper extends HelperBase {
     }
 
 
-    public void userRegistrationForMainForm(String username, String email) {
+    public void userRegistrationForMainForm(String user, String email) throws InterruptedException {
         click(By.linkText("Signup for a new account"));
-        type(By.id("username"), username);
+        type(By.id("username"), user);
         type(By.id("email-field"), email);
+        Thread.sleep(5000);
         click(By.cssSelector("input[type='submit']"));
     }
 
@@ -64,5 +65,14 @@ public class UserFormHelper extends HelperBase {
         type(By.cssSelector("input[id='password-confirm']"), password);
         click(By.cssSelector("button[type='submit']"));
     }
+
+    public void fillAccount(String username, String password) {
+        type(By.id("realname"), username);
+        type(By.id("password"), password);
+        type(By.id("password-confirm"), password);
+        click(By.cssSelector("button[type='submit']"));
+    }
+
+
 
 }

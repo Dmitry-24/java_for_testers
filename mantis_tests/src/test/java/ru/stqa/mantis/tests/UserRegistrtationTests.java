@@ -13,7 +13,7 @@ public class UserRegistrtationTests extends TestBase {
     DeveloperMailUser user;
 
     @Test
-    void canRegisterUser() {
+    void canRegisterUser() throws InterruptedException {
         var username = CommonFunctions.randomString(8);
         var password = "password";
         var email = String.format("%s@localhost", username);
@@ -28,7 +28,7 @@ public class UserRegistrtationTests extends TestBase {
     }
 
     @Test
-    void canRegisterUserApi() {
+    void canRegisterUserApi() throws InterruptedException {
         var username = CommonFunctions.randomString(8);
         var password = "password";
         var email = String.format("%s@localhost", username);
@@ -43,18 +43,21 @@ public class UserRegistrtationTests extends TestBase {
     }
 
     @Test
-    void canRegisterUserWithDeveloperMail() {
+    void canRegisterUserWithDeveloperMail() throws InterruptedException {
         var password = "password";
         user = app.developerMail().addUser();
         var email = String.format("%s@developermail.com", user.name());
 
-       /* app.user().userRegistrationForMainForm(username, email);
-        var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
-        var url = app.mail().getUrl(messages);
-        app.user().confirmData(url, "testName", password);
-        app.http().login(username, password);
+        app.user().userRegistrationForMainForm(user.name(), email);
+
+        var message = app.developerMail().receive(user, Duration.ofSeconds(60));
+        var url = CommonFunctions.extractLinkText(message);
+        app.mail().getUrlLink(url);
+
+        app.user().fillAccount(user.name(), password);
+        app.http().login(user.name(), password);
         Assertions.assertTrue(app.http().isLoggedIn());
-        */
+
     }
 
     @AfterEach
