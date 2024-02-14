@@ -1,6 +1,5 @@
 package ru.stqa.mantis.tests;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.mantis.common.CommonFunctions;
@@ -28,21 +27,6 @@ public class UserRegistrtationTests extends TestBase {
     }
 
     @Test
-    void canRegisterUserApi() throws InterruptedException {
-        var username = CommonFunctions.randomString(8);
-        var password = "password";
-        var email = String.format("%s@localhost", username);
-        app.jamesApi().addUser(email, password);
-        app.user().userRegistrationForMainForm(username, email);
-        var messages = app.mail().receive(email, password, Duration.ofSeconds(60));
-        var url = app.mail().getUrl(messages);
-        app.user().confirmData(url, "testName", password);
-        app.http().login(username, password);
-        Assertions.assertTrue(app.http().isLoggedIn());
-
-    }
-
-    @Test
     void canRegisterUserWithDeveloperMail() throws InterruptedException {
         var password = "password";
         user = app.developerMail().addUser();
@@ -59,11 +43,9 @@ public class UserRegistrtationTests extends TestBase {
         Assertions.assertTrue(app.http().isLoggedIn());
 
     }
-
-
-
+    
     @Test
-    void canRegisterUserApi1() throws InterruptedException {
+    void canRegisterUserApi() throws InterruptedException {
         var username = CommonFunctions.randomString(8);
         var password = "password";
         var email = String.format("%s@localhost", username);
