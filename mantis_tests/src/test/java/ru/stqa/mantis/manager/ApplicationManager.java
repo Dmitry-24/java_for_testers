@@ -22,6 +22,7 @@ public class ApplicationManager {
     private JamesApiHelper jamesApiHelper;
     private DeveloperMailHelper developerMailHelper;
     private RestApiHelper restApiHelper;
+    private SoupApiHelper soupApiHelper;
 
 
     public void init(String browser, Properties properties) {
@@ -101,6 +102,13 @@ public class ApplicationManager {
             restApiHelper = new RestApiHelper(this);
         }
         return restApiHelper;
+    }
+
+    public SoupApiHelper soup() {
+        if (soupApiHelper == null) {
+            soupApiHelper = new SoupApiHelper(this);
+        }
+        return soupApiHelper;
     }
 
 

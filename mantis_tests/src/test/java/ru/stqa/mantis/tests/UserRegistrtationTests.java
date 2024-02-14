@@ -43,7 +43,7 @@ public class UserRegistrtationTests extends TestBase {
         Assertions.assertTrue(app.http().isLoggedIn());
 
     }
-    
+
     @Test
     void canRegisterUserApi() throws InterruptedException {
         var username = CommonFunctions.randomString(8);
