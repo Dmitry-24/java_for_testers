@@ -39,7 +39,7 @@ public class ContactRemovalTests extends TestBase {
     @Test
     public void canRemoveContactFromGroup() {
         if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData()
+            app.contacts().createContact(new ContactData()
                     .withFirstName(CommonFunctions.randomString(10))
                     .withLastName(CommonFunctions.randomString(10))
                     .withAddress(CommonFunctions.randomString(10)));
