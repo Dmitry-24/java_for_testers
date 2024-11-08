@@ -16,4 +16,17 @@ public class CommonFunctions {
                 .collect(Collectors.joining());
         return result;
     }
+
+
+    public static String randomName(int n) {
+        var rnd = new Random();
+        var result = "";
+        for (int i = 0; i < n; i++) {
+            result = result + (char)('a' + rnd.nextInt(26));
+        }
+        return result;
+
+    }
+
+
 }

@@ -21,31 +21,32 @@ public class GroupCreationTests extends TestBase {
 
     public static List<GroupData> groupProvider() throws IOException {
         var result = new ArrayList<GroupData>();
-        for(var name : List.of("", "group name")) {
-            for(var header : List.of("", "header name")) {
+        for (var name : List.of("", "group name")) {
+            for (var header : List.of("", "header name")) {
                 for (var footer : List.of("", "footer name")) {
                     result.add(new GroupData().withName(name).withHeader(header).withFooter(footer));
                 }
             }
         }
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(new File("groups.json"), new TypeReference<List<GroupData>>() {});
+        var value = mapper.readValue(new File("groups.json"), new TypeReference<List<GroupData>>() {
+        });
         result.addAll(value);
         return result;
     }
 
     public static List<GroupData> negativeGroupProvider() {
         var result = new ArrayList<GroupData>(List.of(
-                new GroupData("", "group name'", "","")));
+                new GroupData("", "group name'", "", "")));
         return result;
     }
 
-    public static Stream<GroupData> randomGroups()  {
+    public static Stream<GroupData> randomGroups() {
         Supplier<GroupData> randomGroup = () -> new GroupData()
-                .withName(CommonFunctions.randomString(10))
+                .withName(CommonFunctions.randomName(10))
                 .withHeader(CommonFunctions.randomString(10))
                 .withFooter(CommonFunctions.randomString(10));
-        return Stream.generate(randomGroup).limit(1);
+        return Stream.generate(randomGroup).limit(2);
     }
 
     @ParameterizedTest
@@ -55,7 +56,7 @@ public class GroupCreationTests extends TestBase {
         app.groups().createGroup(group);
         var newGroups = app.hbm().getGroupList();
         var maxId = newGroups.get(newGroups.size() - 1).id();
-        var extraGroups = newGroups.stream().filter(g -> ! oldGroups.contains(g)).toList();
+        var extraGroups = newGroups.stream().filter(g -> !oldGroups.contains(g)).toList();
         var newId = extraGroups.get(0).id();
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.add(group.withId(maxId));
